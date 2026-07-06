@@ -3,126 +3,182 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sedang Pemeliharaan Sistem</title>
+    <title>Maintenance</title>
     <style>
-        /* Pengaturan Dasar */
+        /* Reset & Base Styles */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f3f4f6;
-            color: #333333;
+            background-color: #080710;
             display: flex;
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            padding: 20px;
-        }
-        
-        /* Kartu Kontainer Utama */
-        .maintenance-card {
-            background-color: #ffffff;
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            padding: 40px 30px;
-            text-align: center;
-            max-width: 480px;
-            width: 100%;
-        }
-
-        /* Container untuk GIF */
-        .gif-container {
-            margin-bottom: 25px;
-            display: flex;
-            justify-content: center;
-        }
-        .gif-container img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Teks */
-        h1 {
-            font-size: 24px;
-            color: #1f2937;
-            margin-bottom: 12px;
-        }
-        p {
-            font-size: 15px;
-            color: #4b5563;
-            line-height: 1.6;
-            margin-bottom: 30px;
-        }
-
-        /* Progres Bar Animasi */
-        .progress-container {
-            background-color: #e5e7eb;
-            border-radius: 10px;
-            height: 8px;
-            width: 100%;
-            margin-bottom: 30px;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             overflow: hidden;
             position: relative;
         }
-        .progress-bar {
-            background-color: #3b82f6;
-            height: 100%;
-            width: 70%; /* Tingkat progres simulasi */
-            border-radius: 10px;
+
+        /* Efek Garis Scanline Latar Belakang */
+        body::before {
+            content: '';
             position: absolute;
-            animation: loading-animation 2s infinite ease-in-out;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                        linear-gradient(90deg, rgba(255, 0, 0, 0.03), rgba(0, 255, 0, 0.01), rgba(0, 0, 255, 0.03));
+            background-size: 100% 4px, 6px 100%;
+            z-index: 1;
+            pointer-events: none;
         }
 
-        /* Info Kontak/Footer Kecil */
-        .footer-text {
-            font-size: 13px;
-            color: #9ca3af;
+        /* Container Utama */
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+            width: 100%;
+            max-width: 600px;
+            z-index: 2;
         }
 
-        /* Animasi Progres */
-        @keyframes loading-animation {
+        /* Area Animasi Lingkaran */
+        .animation-box {
+            position: relative;
+            width: clamp(120px, 25vw, 180px);
+            height: clamp(120px, 25vw, 180px);
+            margin-bottom: clamp(30px, 8vw, 50px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            border: 3px solid transparent;
+        }
+
+        /* Lingkaran Luar (Sian) */
+        .circle-1 {
+            width: 100%;
+            height: 100%;
+            border-top-color: #00f3ff;
+            border-bottom-color: #00f3ff;
+            animation: spin 2.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+        }
+
+        /* Lingkaran Tengah (Pink/Magenta) */
+        .circle-2 {
+            width: 80%;
+            height: 80%;
+            border-left-color: #ff007f;
+            border-right-color: #ff007f;
+            animation: spin-reverse 2s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+        }
+
+        /* Lingkaran Dalam (Ungu) */
+        .circle-3 {
+            width: 60%;
+            height: 60%;
+            border-top-color: #9d00ff;
+            border-bottom-color: #9d00ff;
+            animation: spin 1.2s linear infinite;
+        }
+
+        /* Inti Cahaya di Tengah */
+        .core {
+            position: absolute;
+            width: 25%;
+            height: 25%;
+            background: radial-gradient(circle, #00f3ff 0%, transparent 70%);
+            border-radius: 50%;
+            animation: pulse 1.5s ease-in-out infinite alternate;
+            box-shadow: 0 0 25px rgba(0, 243, 255, 0.8);
+        }
+
+        /* Gaya Tulisan MAINTENANCE */
+        h1 {
+            color: #ffffff;
+            font-size: clamp(1.8rem, 6vw, 3.2rem);
+            font-weight: 800;
+            /* Menggunakan clamp agar ukuran huruf menyesuaikan layar secara dinamis */
+            letter-spacing: clamp(6px, 1.5vw, 12px);
+            text-transform: uppercase;
+            position: relative;
+            /* padding-left disamakan dengan letter-spacing agar teks benar-benar presisi di tengah */
+            padding-left: clamp(6px, 1.5vw, 12px);
+            animation: text-glow 2s ease-in-out infinite alternate;
+            user-select: none;
+        }
+
+        /* Keyframes Animasi Putaran */
+        @keyframes spin {
             0% {
-                left: -10%;
-                width: 30%;
-            }
-            50% {
-                left: 40%;
-                width: 40%;
+                transform: rotate(0deg);
             }
             100% {
-                left: 110%;
-                width: 30%;
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin-reverse {
+            0% {
+                transform: rotate(360deg);
+            }
+            100% {
+                transform: rotate(0deg);
+            }
+        }
+
+        /* Keyframes Denyut Inti Cahaya */
+        @keyframes pulse {
+            0% {
+                transform: scale(0.8);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(1.2);
+                opacity: 1;
+            }
+        }
+
+        /* Keyframes Cahaya Tulisan */
+        @keyframes text-glow {
+            0% {
+                text-shadow: 0 0 10px rgba(0, 243, 255, 0.2),
+                             0 0 20px rgba(0, 243, 255, 0.1);
+                opacity: 0.8;
+            }
+            100% {
+                text-shadow: 0 0 15px rgba(0, 243, 255, 0.6),
+                             0 0 25px rgba(255, 0, 127, 0.4),
+                             0 0 35px rgba(157, 0, 255, 0.2);
+                opacity: 1;
             }
         }
     </style>
 </head>
 <body>
-
-    <div class="maintenance-card">
-        <!-- Area GIF Meme (Kucing mengetik cepat) -->
-        <div class="gif-container">
-            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3N0NDI3dmFkd3V1aHR3b3ZhaWhvZnZkZnB5dWQxZWJ0amRnMmdkciZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/unqAMCtXaso76/giphy.gif" alt="Developer sedang panik memperbaiki server">
+    <div class="container">
+        <!-- Bagian Animasi -->
+        <div class="animation-box">
+            <div class="circle circle-1"></div>
+            <div class="circle circle-2"></div>
+            <div class="circle circle-3"></div>
+            <div class="core"></div>
         </div>
-
-        <!-- Pesan Pemeliharaan -->
-        <h1>Waduh, Lagi Diberesin Nih!</h1>
-        <p>Website kami sedang dalam proses pemeliharaan berkala agar kinerjanya lebih optimal. Mohon ditunggu, tim kami sedang bekerja sekeras kucing di atas.</p>
-
-        <!-- Visual Progres -->
-        <div class="progress-container">
-            <div class="progress-bar"></div>
-        </div>
-
-        <!-- Footer -->
-        <div class="footer-text">
-            Kami akan segera kembali secara otomatis. Terima kasih atas kesabaran Anda!
-        </div>
+        <!-- Bagian Teks -->
+        <h1>Maintenance</h1>
     </div>
-
 </body>
 </html>
